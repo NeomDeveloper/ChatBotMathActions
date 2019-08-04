@@ -11,6 +11,7 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from pprint import pprint
 
 
 class Explicacao(Action):
@@ -24,6 +25,7 @@ class Explicacao(Action):
 
         tema = tracker.get_slot('tema_para_ser_explicado')
         print('chega aqui =D')
+        pprint(tracker)
         dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(tema))
 
         return []
