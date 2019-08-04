@@ -29,6 +29,6 @@ class Explicacao(Action):
 
         pprint(tracker.current_slot_values())
         pprint(tracker.slots)
-        dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(tracker.latest_message()))
+        dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(dumps(tracker.latest_message())))
 
         return []
