@@ -24,12 +24,11 @@ class Explicacao(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        tema = tracker.get_slot('tema_para_ser_explicado')
+        # tema = tracker.get_slot('tema_para_ser_explicado')
         print('chega aqui =D')
 
         pprint(tracker.current_slot_values())
         pprint(tracker.slots)
-        pprint(tracker.get_latest_entity_values('tema_para_ser_explicado').__str__())
-        dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(tema))
+        dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(tracker.get_latest_entity_values('tema_para_ser_explicado')))
 
         return []
