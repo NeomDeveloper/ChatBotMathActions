@@ -29,7 +29,7 @@ class Explicacao(Action):
 
         pprint(tracker.current_slot_values())
         pprint(tracker.slots)
-        pprint(dumps(tracker.get_latest_entity_values('tema_para_ser_explicado')))
+        pprint(tracker.latest_message)
         dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(tema))
 
         return []
