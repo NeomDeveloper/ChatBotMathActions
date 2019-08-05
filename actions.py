@@ -28,6 +28,6 @@ class Explicacao(Action):
         print('chega aqui =D')
 
         pprint(dumps(tracker.latest_message()))
-        dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(dumps(tracker.latest_message())))
+        dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format('ok ok'))
 
         return []
