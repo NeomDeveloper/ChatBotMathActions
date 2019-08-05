@@ -27,8 +27,7 @@ class Explicacao(Action):
         # tema = tracker.get_slot('tema_para_ser_explicado')
         print('chega aqui =D')
 
-        pprint(tracker.current_slot_values())
-        pprint(tracker.slots)
+        pprint(dumps(tracker.latest_message()))
         dispatcher.utter_message("select * from restaurants where cuisine='{0}' limit 1".format(dumps(tracker.latest_message())))
 
         return []
