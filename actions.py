@@ -24,15 +24,15 @@ class Explicacao(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # tema = tracker.get_slot('tema_para_ser_explicado')
+        tema = next(tracker.get_latest_entity_values('tema_para_ser_explicado')) if next(tracker.get_latest_entity_values('tema_para_ser_explicado')) else ''
         # print('chega aqui =D')
 
         dispatcher.utter_message(
-            "Ok, vou pesquisar mais sobre {0}".format(next(tracker.get_latest_entity_values('tema_para_ser_explicado')))
+            "Ok, vou pesquisar mais sobre {0}".format(tema)
         )
 
         dispatcher.utter_message(
-            " Agora fazer alguma busca sobre {0} ".format(next(tracker.get_latest_entity_values('tema_para_ser_explicado')))
+            " Agora fazer alguma busca sobre {0} ".format(tema)
         )
 
         dispatcher.utter_message(
