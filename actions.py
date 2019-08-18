@@ -39,4 +39,6 @@ class Explicacao(Action):
             "Conseguiu entender ? "
         )
 
+        dispatcher.utter_button_message('entendeu?', List[domain])
+
         return []
