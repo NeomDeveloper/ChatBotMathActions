@@ -24,8 +24,9 @@ class Explicacao(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        tema = next(tracker.get_latest_entity_values('tema_para_ser_explicado')) if next(tracker.get_latest_entity_values('tema_para_ser_explicado')) else ''
-        # print('chega aqui =D')
+        print('chega aqui 1')
+        tema = next(tracker.get_latest_entity_values('tema_para_ser_explicado')) if next(tracker.get_latest_entity_values('tema_para_ser_explicado')) else 'Nada'
+        print('chega aqui 2' + tema)
 
         dispatcher.utter_message(
             "Ok, vou pesquisar mais sobre {0}".format(tema)
@@ -39,6 +40,6 @@ class Explicacao(Action):
             "Conseguiu entender ? "
         )
 
-        dispatcher.utter_button_message('entendeu?', List[domain])
+        # dispatcher.utter_button_message('entendeu?', List[domain])
 
         return []
