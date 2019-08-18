@@ -24,8 +24,8 @@ class Explicacao(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        # tema = tracker.get_slot('tema_para_ser_explicado')
-        print('chega aqui =D')
+        tema = tracker.get_slot('tema_para_ser_explicado')
+        print(tema)
 
         pprint(dumps(tracker.latest_message))
         pprint(dumps(tracker.latest_action_name))
