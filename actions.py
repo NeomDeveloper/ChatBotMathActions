@@ -13,93 +13,14 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, UserUtteranceReverted, ConversationPaused
 
+import requests
+import json
 
-class HexadecimalParaDecimal(Action):
+URL_HOST_BASES = "http://localhost:8000/converter.php?"
 
-    def name(self) -> Text:
-        return "converter_hexa_para_decimal"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        valores = Helper.getValores(tracker)
-
-        dispatcher.utter_message("Converter {0} para {1}".format(valores[0], valores[1]))
-
-        return []
-
-
-class HexadecimalParaBinario(Action):
-
-    def name(self) -> Text:
-        return "converter_hexa_para_binario"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        valores = Helper.getValores(tracker)
-
-        dispatcher.utter_message("Converter {0} para {1}".format(valores[0], valores[1]))
-
-        return []
-
-
-class DecimalParaHexadecimal(Action):
-
-    def name(self) -> Text:
-        return "converter_decimal_para_hexa"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        valores = Helper.getValores(tracker)
-
-        dispatcher.utter_message("Converter {0} para {1}".format(valores[0], valores[1]))
-
-        return []
-
-
-class DecimalParaBinario(Action):
-    def name(self) -> Text:
-        return "converter_decimal_para_binario"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        valores = Helper.getValores(tracker)
-
-        dispatcher.utter_message("Converter {0} para {1}".format(valores[0], valores[1]))
-
-        return []
-
-
-class BinarioParaHexadecimal(Action):
-    def name(self) -> Text:
-        return "converter_binario_para_hexa"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        valores = Helper.getValores(tracker)
-
-        dispatcher.utter_message("Converter {0} para {1}".format(valores[0], valores[1]))
-
-        return []
-
-
-class BinarioParaDecimal(Action):
-    def name(self) -> Text:
-        return "converter_binario_para_decimal"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        valores = Helper.getValores(tracker)
-
-        dispatcher.utter_message("Converter {0} para {1}".format(valores[0], valores[1]))
-
-        return []
+URL_REQUEST_CONVERTER_BASES = URL_HOST_BASES + "valor={valor}&" \
+                              "base_valor={base_valor}&" \
+                              "base_conversao={base_converter}"
 
 
 class Explicacao(Action):
@@ -114,7 +35,6 @@ class Explicacao(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         tema = next(tracker.get_latest_entity_values('tema_para_ser_explicado'))
 
         print(tema)
@@ -139,6 +59,61 @@ class Explicacao(Action):
 
     def explicar(self, tema):
         return 'Aqui a função para pesquisar sobre: ' + tema
+
+
+class ConverterBases(Action):
+    def name(self) -> Text:
+        return "converter_bases_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        try:
+            dados = Helper.getValores(tracker)
+
+            txt = "Ok, convertendo {valor} de {base_valor} para {base_converter}".format(
+                valor=dados['valor'],
+                base_valor=dados['base_valor'],
+                base_converter=dados['base_converter'],
+            )
+
+            dispatcher.utter_message(txt)
+
+            url_response = requests.get(
+                URL_REQUEST_CONVERTER_BASES.format(
+                    valor=dados['valor'], base_valor=dados['base_valor'], base_converter=dados['base_converter'],
+                ))
+
+            response_json = json.loads(url_response.text)
+
+            if response_json['status'] == "success":
+                response = response_json['response']
+                resposta = response['resposta']
+                explicacao = response['explicacao']
+
+                dispatcher.utter_message("O {valor} de {base_valor} para {base_converter} é: {resposta}".format(
+                    valor=dados['valor'],
+                    base_valor=dados['base_valor'],
+                    base_converter=dados['base_converter'],
+                    resposta=resposta
+                ))
+
+                dispatcher.utter_message("Quer entender? Te explico ")
+
+                dispatcher.utter_message("{explicacao}".format(
+                    explicacao=explicacao
+                ))
+            else:
+                dispatcher.utter_message(response_json['erro'])
+
+        except Exception as e:
+            dispatcher.utter_message(
+                "Alguma informação ficou errada =/. Por favor digite da seguinte forma:"
+                " 'converter {valor} {tipo de base do valor} para {base que deseja converter}'" + str(e)
+            )
+
+        return []
 
 
 class Entendeu(Action):
@@ -209,7 +184,8 @@ class Helper:
 
     @staticmethod
     def getValores(traker: Tracker):
-        return [
-            next(traker.get_latest_entity_values('valor_para_converter')),
-            next(traker.get_latest_entity_values('base_para_conversao'))
-        ]
+        return {
+            "valor": next(traker.get_latest_entity_values('valor')),
+            "base_valor": next(traker.get_latest_entity_values('base_valor')),
+            "base_converter": next(traker.get_latest_entity_values('base_para_converter'))
+        }
