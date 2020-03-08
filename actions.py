@@ -19,8 +19,8 @@ import json
 URL_HOST_BASES = "http://localhost:8000/converter.php?"
 
 URL_REQUEST_CONVERTER_BASES = URL_HOST_BASES + "valor={valor}&" \
-                              "base_valor={base_valor}&" \
-                              "base_conversao={base_converter}"
+                                               "base_valor={base_valor}&" \
+                                               "base_conversao={base_converter}"
 
 
 class Explicacao(Action):
@@ -112,6 +112,51 @@ class ConverterBases(Action):
                 "Alguma informação ficou errada =/. Por favor digite da seguinte forma:"
                 " 'converter {valor} {tipo de base do valor} para {base que deseja converter}'" + str(e)
             )
+
+        return []
+
+
+class InicioEnsinoConverterBases(Action):
+    def name(self) -> Text:
+        return "inicio_ensino_converter_bases_action"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message("Ok, vamos lá")
+
+        dispatcher.utter_message(
+            " Podemos considerar, a fim de simplificação, que base numérica é "
+            "um conjunto de símbolos (ou algarismos) com o qual podemos"
+            " representar uma certa quantidade ou número."
+
+        )
+
+        dispatcher.utter_message(
+            "No dia a dia costuma-se utilizar a base dez, ou base decimal, que como o "
+            "próprio nome já diz é composta por 10 algarismos diferentes:  0, 1, 2, 3, 4, 5, 6, 7, 8 e 9."
+            "  Dessa forma, uma sequência de contagem para a base decimal pode ser expressa através da "
+            "seguinte sequência de números:"
+            "0          1          2          3          4          5          6          7          8          9"
+        )
+
+        dispatcher.utter_message(
+            "Dado que o algarismo ‘9’ é o algarismo de maior valor numérico disponível nessa base, "
+            "para poder representar um número ma    ior do que 9 é necessário adicionar mais um dígito "
+            "ao número original, sendo que esse dígito deve ter um peso igual ao peso do número "
+            "representado até então mais um. Para o caso da base decimal, se o último número"
+            " representado foi 9 então o peso do próximo dígito é 9 + 1 = 10, o que leva a:"
+            "10         11         12         13         …        97         98         99"
+        )
+
+        dispatcher.utter_message(
+            "As possibilidades esgotaram-se novamente, e todos os dígitos do número já apresentam o "
+            "algarismo de maior valor numérico. Mais uma vez, deve ser adicionado um dígito extra ao "
+            "número, sendo o seu peso igual a 99 + 1 = 100  e gerando então:"
+            "100       101       …"
+        )
+
+        dispatcher.utter_message("Fonte: http://www.dainf.cefetpr.br/~robson/prof/aulas/common/bases.htm")
 
         return []
 
