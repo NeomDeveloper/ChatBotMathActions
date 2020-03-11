@@ -158,7 +158,11 @@ class InicioEnsinoConverterBases(Action):
 
         dispatcher.utter_message("Fonte: http://www.dainf.cefetpr.br/~robson/prof/aulas/common/bases.htm")
 
-        return []
+        dispatcher.utter_message(
+            "Entendeu?"
+        )
+
+        return [SlotSet('tema_para_ser_explicado', 'conversao_bases')]
 
 
 class Entendeu(Action):
