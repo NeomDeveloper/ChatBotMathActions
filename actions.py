@@ -99,7 +99,7 @@ class ConverterBases(Action):
                     resposta=resposta
                 ))
 
-                dispatcher.utter_message("Quer entender? Te explico ")
+                dispatcher.utter_message(" Vou te explicar como foi feito... ")
 
                 dispatcher.utter_message("{explicacao}".format(
                     explicacao=explicacao
@@ -159,7 +159,7 @@ class InicioEnsinoConverterBases(Action):
         dispatcher.utter_message("Fonte: http://www.dainf.cefetpr.br/~robson/prof/aulas/common/bases.htm")
 
         dispatcher.utter_message(
-            "Entendeu?"
+            "Agora vamos praticar."
         )
 
         return [SlotSet('tema_para_ser_explicado', 'conversao_bases')]
@@ -178,13 +178,15 @@ class Entendeu(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        print(tracker.get_slot('tema_para_ser_explicado'))
+
         tema = tracker.get_slot('tema_para_ser_explicado')
 
-        if tema not in Explicacao.required_slots(tracker):
-            dispatcher.utter_message(
-                "Desculpe, parece que alguma coisa nao esta certa =/"
-            )
-            return []
+        # if tema not in Explicacao.required_slots(tracker):
+        #     dispatcher.utter_message(
+        #         "Desculpe, parece que alguma coisa nao esta certa =/"
+        #     )
+        #     return []
 
         print(tema)
 
@@ -210,13 +212,15 @@ class NaoEntendeu(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
+        print(tracker.get_slot('tema_para_ser_explicado'))
+
         tema = tracker.get_slot('tema_para_ser_explicado')
 
-        if tema not in Explicacao.required_slots(tracker):
-            dispatcher.utter_message(
-                "Desculpe, parece que alguma coisa nao esta certa =/"
-            )
-            return []
+        # if tema not in Explicacao.required_slots(tracker):
+        #     dispatcher.utter_message(
+        #         "Desculpe, parece que alguma coisa nao esta certa =/"
+        #     )
+        #     return []
 
         print(tema)
 
