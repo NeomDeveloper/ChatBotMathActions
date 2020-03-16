@@ -218,7 +218,7 @@ class NaoEntendeu(Action):
         Helper.converterBases(dispatcher, value, "DECIMAL", "BINARIO")
 
         dispatcher.utter_message("Hexadecimal")
-        Helper.converterBases(dispatcher, value, "BINARIA", "HEXADECIMAL")
+        Helper.converterBases(dispatcher, value, "DECIMAL", "HEXADECIMAL")
 
         dispatcher.utter_message(
             "Quando vc quiser converter alguma base, pode digitar: "
