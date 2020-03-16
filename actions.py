@@ -13,6 +13,8 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet, UserUtteranceReverted, ConversationPaused
 
+from random import randint
+
 import requests
 import json
 
@@ -68,7 +70,6 @@ class ConverterBases(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
         dados = Helper.getValores(tracker)
 
         Helper.converterBases(dispatcher, dados['valor'], dados['base_valor'], dados['base_converter'])
@@ -207,13 +208,17 @@ class NaoEntendeu(Action):
 
         dispatcher.utter_message("Vou tentar te explicar de uma forma mais prática")
 
-        dispatcher.utter_message("Converter o número 141 decimal para as bases:")
+        value = randint()
+
+        dispatcher.utter_message("Converter o número {valor} decimal para as bases:".format(
+            valor=value
+        ))
 
         dispatcher.utter_message("Binária")
-        Helper.converterBases(dispatcher, 141, "DECIMAL", "BINARIO")
+        Helper.converterBases(dispatcher, value, "DECIMAL", "BINARIO")
 
         dispatcher.utter_message("Hexadecimal")
-        Helper.converterBases(dispatcher, 141, "BINARIA", "HEXADECIMAL")
+        Helper.converterBases(dispatcher, value, "BINARIA", "HEXADECIMAL")
 
         dispatcher.utter_message(
             "Quando vc quiser converter alguma base, pode digitar: "
