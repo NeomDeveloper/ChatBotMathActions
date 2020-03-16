@@ -208,7 +208,7 @@ class NaoEntendeu(Action):
 
         dispatcher.utter_message("Vou tentar te explicar de uma forma mais prática")
 
-        value = randint()
+        value = randint(12,900)
 
         dispatcher.utter_message("Converter o número {valor} decimal para as bases:".format(
             valor=value
