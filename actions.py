@@ -209,6 +209,17 @@ class NaoEntendeu(Action):
         dispatcher.utter_message("Vou tentar te explicar de uma forma mais prática, ok?!")
         dispatcher.utter_message("Vamos lá!")
 
+        dispatcher.utter_message("Algumas informações que podem te ajudar")
+        dispatcher.utter_message("-")
+        dispatcher.utter_message("Binário   |   Decimal     |       Hexadecimal")
+        dispatcher.utter_message("0         |       0       |       0")
+        dispatcher.utter_message("1         |       1       |       1  -> Primeiro número, logo ainda não faz nada")
+        dispatcher.utter_message("2         |       10      |       2 ->"
+                                 " Segundo número, binário não tem o número 2, então repetiu o primeiro e voltou "
+                                 "para zero")
+        dispatcher.utter_message("3         |       11      |       3 ->")
+        dispatcher.utter_message("-")
+
         dispatcher.utter_message("Converter o número 10 decimal para as bases:")
 
         dispatcher.utter_message("Binária")
