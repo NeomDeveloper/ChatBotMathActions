@@ -236,14 +236,14 @@ class Helper:
     @staticmethod
     def getValores(traker: Tracker):
         return {
-            "valor": int(next(traker.get_latest_entity_values('valor'))),
+            "valor": (next(traker.get_latest_entity_values('valor'))),
             "base_valor": next(traker.get_latest_entity_values('base_valor')),
             "base_converter": next(traker.get_latest_entity_values('base_para_converter'))
         }
 
     @staticmethod
     def converterBases(dispatcher: CollectingDispatcher,
-                       valor: int,
+                       valor: str,
                        base_valor: str,
                        base_converter: str
                        ):
