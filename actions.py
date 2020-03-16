@@ -202,23 +202,36 @@ class NaoEntendeu(Action):
 
         print(tema)
 
-        dispatcher.utter_message("Que pena que vc nao entendeu =/")
+        dispatcher.utter_message("Infelizmente ainda não conheço outras formas de te explicar.")
 
-        dispatcher.utter_message("Vamos tentar de outra forma, pode ser?")
+        dispatcher.utter_message("Mas vamos tentar de outra forma.")
 
-        dispatcher.utter_message("Vou tentar te explicar de uma forma mais prática")
+        dispatcher.utter_message("Vou tentar te explicar de uma forma mais prática, ok?!")
+        dispatcher.utter_message("Vamos lá!")
 
-        value = randint(12,900)
-
-        dispatcher.utter_message("Converter o número {valor} decimal para as bases:".format(
-            valor=value
-        ))
+        dispatcher.utter_message("Converter o número 10 decimal para as bases:")
 
         dispatcher.utter_message("Binária")
-        Helper.converterBases(dispatcher, value, "DECIMAL", "BINARIO")
+        Helper.converterBases(dispatcher, "10", "DECIMAL", "BINARIO")
 
         dispatcher.utter_message("Hexadecimal")
-        Helper.converterBases(dispatcher, value, "DECIMAL", "HEXADECIMAL")
+        Helper.converterBases(dispatcher, "10", "DECIMAL", "HEXADECIMAL")
+
+        dispatcher.utter_message("Agora vou converter 15 decimal para as bases:")
+
+        dispatcher.utter_message("Binária")
+        Helper.converterBases(dispatcher, "15", "DECIMAL", "BINARIO")
+
+        dispatcher.utter_message("Hexadecimal")
+        Helper.converterBases(dispatcher, "15", "DECIMAL", "HEXADECIMAL")
+
+        dispatcher.utter_message("Agora vou converter 16 decimal para as bases:")
+
+        dispatcher.utter_message("Binária")
+        Helper.converterBases(dispatcher, "15", "DECIMAL", "BINARIO")
+
+        dispatcher.utter_message("Hexadecimal")
+        Helper.converterBases(dispatcher, "15", "DECIMAL", "HEXADECIMAL")
 
         dispatcher.utter_message(
             "Quando vc quiser converter alguma base, pode digitar: "
